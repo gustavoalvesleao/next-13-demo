@@ -16,6 +16,7 @@ async function apiFetch(
   {
     data,
     token,
+    method,
     abortController,
     headers: customHeaders,
     ...customConfig
@@ -35,6 +36,7 @@ async function apiFetch(
 
   return fetch(`${apiURL}/${endpoint}`, config).then(async (response) => {
     const newData = await response.json();
+    if (method === "DELETE") return newData;
     if (response.ok) return newData;
     return Promise.reject(newData);
   });

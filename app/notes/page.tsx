@@ -1,8 +1,11 @@
+// "use client";
+
 import Link from "next/link";
-import { Note, Notes } from "./types";
+import { Notes } from "./types";
 import styles from "./Notes.module.css";
 import CreateNote from "./CreateNote";
 import { apiFetch } from "utils/api-fetch";
+import Note from "./components/Note/Note";
 
 async function getNotes() {
   try {
@@ -24,24 +27,13 @@ export default async function NotesPage() {
       <h1>Notes</h1>
       <div className={styles.grid}>
         {notes?.map((note) => (
-          <Note key={note.id} note={note} />
+          <Link href={`/notes/${note.id}`} key={note.id}>
+            <Note note={note} />
+          </Link>
         ))}
       </div>
 
       <CreateNote />
     </div>
-  );
-}
-
-function Note({ note }: { note: Note }) {
-  const { id, title, content, created } = note;
-  return (
-    <Link href={`/notes/${id}`}>
-      <div className={styles.note}>
-        <h2>{title}</h2>
-        <h5>{content}</h5>
-        <p>{created}</p>
-      </div>
-    </Link>
   );
 }
